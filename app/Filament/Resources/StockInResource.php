@@ -5,13 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\StockInResource\Pages;
 use App\Filament\Resources\StockInResource\RelationManagers;
 use App\Models\StockIn;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,7 +20,11 @@ class StockInResource extends Resource
 {
     protected static ?string $model = StockIn::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-down-tray';
+
+    protected static ?string $navigationLabel = 'Barang Masuk';
+
+    protected static ?string $navigationGroup = 'Kelola Barang';
 
     public static function form(Form $form): Form
     {
@@ -47,9 +51,20 @@ class StockInResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('kode_barang')
+                TextColumn::make('no')
+                    ->rowIndex(),
+                TextColumn::make('stock.nama_barang')
+                    ->label('Nama Barang')
+                    ->copyable()
+                    ->copyMessage('tercopy')
                     ->searchable(),
                 TextColumn::make('no_barang_masuk')
+                    ->copyable()
+                    ->copyMessage('tercopy')
+                    ->searchable(),
+                TextColumn::make('kode_barang')
+                    ->copyable()
+                    ->copyMessage('tercopy')
                     ->searchable(),
                 TextColumn::make('quantity')
                     ->numeric()
@@ -60,16 +75,18 @@ class StockInResource extends Resource
                     ->date()
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('stock')
+                    ->relationship('stock', 'nama_barang')
+                    ->label('Nama Barang')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

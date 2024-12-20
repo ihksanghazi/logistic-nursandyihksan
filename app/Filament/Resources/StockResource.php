@@ -20,6 +20,10 @@ class StockResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Barang';
+
+    protected static ?string $label = 'Barang';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -39,19 +43,25 @@ class StockResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('no')
+                    ->rowIndex(),
                 TextColumn::make('nama_barang')
+                    ->copyable()
+                    ->copyMessage('tercopy')
                     ->searchable(),
                 TextColumn::make('kode_barang')
+                    ->copyable()
+                    ->copyMessage('tercopy')
                     ->searchable(),
                 TextColumn::make('stok_tersedia')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
