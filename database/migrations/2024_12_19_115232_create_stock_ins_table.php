@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stock_ins', function (Blueprint $table) {
             $table->ulid('id');
-            $table->string('kode_barang'); // foreignkey
+            $table->string('kode_barang')->index(); // foreignkey
             $table->string('no_barang_masuk');
             $table->integer('quantity');
             $table->string('origin');
