@@ -9,6 +9,8 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -17,7 +19,13 @@ class StockOutResource extends Resource
 {
     protected static ?string $model = StockOut::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-up-tray';
+
+    protected static ?string $navigationLabel = 'Barang Keluar';
+
+    protected static ?string $label = 'Barang Keluar';
+
+    protected static ?string $navigationGroup = 'Kelola Barang';
 
     public static function form(Form $form): Form
     {
@@ -44,35 +52,46 @@ class StockOutResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
+                TextColumn::make('no')
+                    ->rowIndex(),
+                TextColumn::make('stock.nama_barang')
+                    ->label('Nama Barang')
+                    ->copyable()
+                    ->copyMessage('tercopy')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kode_barang')
+                TextColumn::make('no_barang_keluar')
+                    ->copyable()
+                    ->copyMessage('tercopy')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('no_barang_keluar')
+                TextColumn::make('kode_barang')
+                    ->copyable()
+                    ->copyMessage('tercopy')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('quantity')
+                TextColumn::make('quantity')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('destination')
+                TextColumn::make('destination')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tanggal_keluar')
+                TextColumn::make('tanggal_keluar')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('stock')
+                    ->relationship('stock', 'nama_barang')
+                    ->label('Nama Barang')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

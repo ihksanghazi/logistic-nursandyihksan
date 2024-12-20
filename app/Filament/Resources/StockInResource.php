@@ -79,11 +79,11 @@ class StockInResource extends Resource
                     ->date()
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->date()
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->date()
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
