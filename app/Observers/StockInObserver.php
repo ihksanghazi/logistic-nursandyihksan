@@ -30,7 +30,9 @@ class StockInObserver
      */
     public function deleted(StockIn $stockIn): void
     {
-        //
+        $stock = Stock::where('kode_barang', $stockIn->kode_barang)->first();
+        $stock->stok_tersedia -= $stockIn->quantity;
+        $stock->save();
     }
 
     /**
