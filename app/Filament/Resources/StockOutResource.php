@@ -2,40 +2,52 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\StockResource\Pages;
-use App\Filament\Resources\StockResource\RelationManagers;
+use App\Filament\Resources\StockOutResource\Pages;
+use App\Filament\Resources\StockOutResource\RelationManagers;
 use App\Models\Stock;
+use App\Models\StockOut;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class StockResource extends Resource
+class StockOutResource extends Resource
 {
-    protected static ?string $model = Stock::class;
+    protected static ?string $model = StockOut::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-up-tray';
 
-    protected static ?string $navigationLabel = 'Barang';
+    protected static ?string $navigationLabel = 'Barang Keluar';
 
-    protected static ?string $label = 'Barang';
+    protected static ?string $label = 'Barang Keluar';
+
+    protected static ?string $navigationGroup = 'Kelola Barang';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('nama_barang')
+                Select::make('kode_barang')
+                    ->label('Nama Barang')
+                    ->options(Stock::all()->pluck('nama_barang', 'kode_barang'))
+                    ->disabledOn('edit')
+                    ->searchable(),
+                TextInput::make('quantity')
+                    ->required()
+                    ->disabledOn('edit')
+                    ->numeric(),
+                TextInput::make('destination')
                     ->required()
                     ->maxLength(255),
-                TextInput::make('stok_tersedia')
-                    ->required()
-                    ->numeric()
-                    ->default(0)
-                    ->disabledOn('edit'),
+                DatePicker::make('tanggal_keluar')
+                    ->required(),
             ]);
     }
 
@@ -45,7 +57,12 @@ class StockResource extends Resource
             ->columns([
                 TextColumn::make('no')
                     ->rowIndex(),
-                TextColumn::make('nama_barang')
+                TextColumn::make('stock.nama_barang')
+                    ->label('Nama Barang')
+                    ->copyable()
+                    ->copyMessage('tercopy')
+                    ->searchable(),
+                TextColumn::make('no_barang_keluar')
                     ->copyable()
                     ->copyMessage('tercopy')
                     ->searchable(),
@@ -53,8 +70,13 @@ class StockResource extends Resource
                     ->copyable()
                     ->copyMessage('tercopy')
                     ->searchable(),
-                TextColumn::make('stok_tersedia')
+                TextColumn::make('quantity')
                     ->numeric()
+                    ->sortable(),
+                TextColumn::make('destination')
+                    ->searchable(),
+                TextColumn::make('tanggal_keluar')
+                    ->date()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -66,7 +88,9 @@ class StockResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('stock')
+                    ->relationship('stock', 'nama_barang')
+                    ->label('Nama Barang')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -89,9 +113,9 @@ class StockResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListStocks::route('/'),
-            'create' => Pages\CreateStock::route('/create'),
-            'edit' => Pages\EditStock::route('/{record}/edit'),
+            'index' => Pages\ListStockOuts::route('/'),
+            'create' => Pages\CreateStockOut::route('/create'),
+            'edit' => Pages\EditStockOut::route('/{record}/edit'),
         ];
     }
 }
