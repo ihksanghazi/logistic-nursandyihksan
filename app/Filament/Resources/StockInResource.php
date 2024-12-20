@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StockInResource\Pages;
 use App\Filament\Resources\StockInResource\RelationManagers;
+use App\Models\Stock;
 use App\Models\StockIn;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TextInput;
@@ -13,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -24,20 +26,22 @@ class StockInResource extends Resource
 
     protected static ?string $navigationLabel = 'Barang Masuk';
 
+    protected static ?string $label = 'Barang Masuk';
+
     protected static ?string $navigationGroup = 'Kelola Barang';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('kode_barang')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('no_barang_masuk')
-                    ->required()
-                    ->maxLength(255),
+                Select::make('kode_barang')
+                    ->label('Nama Barang')
+                    ->options(Stock::all()->pluck('nama_barang', 'kode_barang'))
+                    ->disabledOn('edit')
+                    ->searchable(),
                 TextInput::make('quantity')
                     ->required()
+                    ->disabledOn('edit')
                     ->numeric(),
                 TextInput::make('origin')
                     ->required()
