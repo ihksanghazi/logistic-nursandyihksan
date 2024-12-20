@@ -4,8 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StockOutResource\Pages;
 use App\Filament\Resources\StockOutResource\RelationManagers;
+use App\Models\Stock;
 use App\Models\StockOut;
-use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -31,19 +34,19 @@ class StockOutResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('kode_barang')
+                Select::make('kode_barang')
+                    ->label('Nama Barang')
+                    ->options(Stock::all()->pluck('nama_barang', 'kode_barang'))
+                    ->disabledOn('edit')
+                    ->searchable(),
+                TextInput::make('quantity')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('no_barang_keluar')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('quantity')
-                    ->required()
+                    ->disabledOn('edit')
                     ->numeric(),
-                Forms\Components\TextInput::make('destination')
+                TextInput::make('destination')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('tanggal_keluar')
+                DatePicker::make('tanggal_keluar')
                     ->required(),
             ]);
     }
