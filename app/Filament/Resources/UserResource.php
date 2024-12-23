@@ -2,41 +2,54 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\StockResource\Pages;
-use App\Filament\Resources\StockResource\RelationManagers;
-use App\Models\Stock;
+use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\User;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
 
-class StockResource extends Resource
+class UserResource extends Resource
 {
-    protected static ?string $model = Stock::class;
+    protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationLabel = 'Barang';
+    protected static ?string $navigationLabel = 'User';
 
-    protected static ?string $label = 'Barang';
+    protected static ?string $label = 'User';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('nama_barang')
+                TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
-                TextInput::make('stok_tersedia')
-                    ->required()
-                    ->numeric()
-                    ->default(0)
+                    ->maxLength(255)
                     ->disabledOn('edit'),
+                TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255)
+                    ->disabledOn('edit'),
+                TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->maxLength(255)
+                    ->visibleOn('create'),
+                Select::make('role')
+                    ->options([
+                        'operator' => 'Operator',
+                        'admin' => 'Admin'
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -46,17 +59,12 @@ class StockResource extends Resource
             ->columns([
                 TextColumn::make('no')
                     ->rowIndex(),
-                TextColumn::make('nama_barang')
-                    ->copyable()
-                    ->copyMessage('tercopy')
+                TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('kode_barang')
-                    ->copyable()
-                    ->copyMessage('tercopy')
+                TextColumn::make('email')
                     ->searchable(),
-                TextColumn::make('stok_tersedia')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('role')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -67,7 +75,11 @@ class StockResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('role')
+                    ->options([
+                        'admin' => 'Admin',
+                        'operator' => 'Operator'
+                    ])
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -90,9 +102,9 @@ class StockResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListStocks::route('/'),
-            'create' => Pages\CreateStock::route('/create'),
-            'edit' => Pages\EditStock::route('/{record}/edit'),
+            'index' => Pages\ListUsers::route('/'),
+            'create' => Pages\CreateUser::route('/create'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

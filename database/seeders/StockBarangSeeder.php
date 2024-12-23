@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Stock;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +14,8 @@ class StockBarangSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $user = User::first();
 
         $stocks = [
             ['nama_barang' => 'barang A', 'stok_tersedia' => 100],

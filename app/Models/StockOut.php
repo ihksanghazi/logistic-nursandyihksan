@@ -13,7 +13,7 @@ class StockOut extends Model
 
     protected $guarded = [];
     // protected $fillable = ['kode_barang', 'quantity', 'destination', 'tanggal_keluar'];
-    // protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
     public function stock(): BelongsTo
     {
