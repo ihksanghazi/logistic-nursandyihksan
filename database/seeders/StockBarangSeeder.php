@@ -18,11 +18,11 @@ class StockBarangSeeder extends Seeder
         $user = User::first();
 
         $stocks = [
-            ['nama_barang' => 'barang A', 'user_id' => $user->id, 'stok_tersedia' => 100],
-            ['nama_barang' => 'barang B', 'user_id' => $user->id, 'stok_tersedia' => 100],
-            ['nama_barang' => 'barang C', 'user_id' => $user->id, 'stok_tersedia' => 100],
-            ['nama_barang' => 'barang D', 'user_id' => $user->id, 'stok_tersedia' => 100],
-            ['nama_barang' => 'barang E', 'user_id' => $user->id, 'stok_tersedia' => 100],
+            ['nama_barang' => 'barang A', 'stok_tersedia' => 100],
+            ['nama_barang' => 'barang B', 'stok_tersedia' => 100],
+            ['nama_barang' => 'barang C', 'stok_tersedia' => 100],
+            ['nama_barang' => 'barang D', 'stok_tersedia' => 100],
+            ['nama_barang' => 'barang E', 'stok_tersedia' => 100],
         ];
 
         foreach ($stocks as $index) {

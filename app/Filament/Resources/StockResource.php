@@ -13,6 +13,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class StockResource extends Resource
 {
@@ -56,9 +57,6 @@ class StockResource extends Resource
                 TextColumn::make('stok_tersedia')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('user.email')
-                    ->label('Dibuat Oleh')
-                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

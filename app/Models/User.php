@@ -65,17 +65,4 @@ class User extends Authenticatable implements FilamentUser
     {
         return true;
     }
-
-    public function stock(): HasMany
-    {
-        return $this->hasMany(Stock::class, 'user_id');
-    }
-    public function stockIn(): HasMany
-    {
-        return $this->hasMany(StockIn::class, 'user_id');
-    }
-    public function stockOut(): HasMany
-    {
-        return $this->hasMany(StockOut::class, 'user_id');
-    }
 }

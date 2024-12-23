@@ -17,6 +17,7 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class StockInResource extends Resource
 {
@@ -78,9 +79,6 @@ class StockInResource extends Resource
                 TextColumn::make('tanggal_masuk')
                     ->date()
                     ->sortable(),
-                TextColumn::make('user.email')
-                    ->label('Dibuat Oleh')
-                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

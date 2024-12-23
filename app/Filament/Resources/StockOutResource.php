@@ -17,6 +17,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class StockOutResource extends Resource
 {
@@ -74,9 +75,6 @@ class StockOutResource extends Resource
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('destination')
-                    ->searchable(),
-                TextColumn::make('user.email')
-                    ->label('Dibuat Oleh')
                     ->searchable(),
                 TextColumn::make('tanggal_keluar')
                     ->date()
