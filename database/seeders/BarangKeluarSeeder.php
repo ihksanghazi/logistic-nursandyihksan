@@ -17,7 +17,7 @@ class BarangKeluarSeeder extends Seeder
     {
         $stocks = Stock::all();
 
-        foreach (range(1, 5) as $index) {
+        foreach (range(15, 20) as $index) {
             StockOut::create([
                 'kode_barang' => $stocks->random()->kode_barang,
                 'quantity' => fake('id_ID')->numberBetween(1, 5),

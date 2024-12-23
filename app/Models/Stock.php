@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Stock extends Model
@@ -13,7 +14,7 @@ class Stock extends Model
 
     protected $guarded = [];
     // protected $fillable = ['nama_barang', 'stok_tersedia'];
-    // protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
     public function stockIns(): HasMany
     {
