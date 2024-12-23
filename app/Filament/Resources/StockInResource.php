@@ -78,6 +78,9 @@ class StockInResource extends Resource
                 TextColumn::make('tanggal_masuk')
                     ->date()
                     ->sortable(),
+                TextColumn::make('user.email')
+                    ->label('Dibuat Oleh')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

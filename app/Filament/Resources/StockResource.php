@@ -56,6 +56,9 @@ class StockResource extends Resource
                 TextColumn::make('stok_tersedia')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('user.email')
+                    ->label('Dibuat Oleh')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

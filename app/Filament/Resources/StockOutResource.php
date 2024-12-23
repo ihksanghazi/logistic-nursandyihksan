@@ -75,6 +75,9 @@ class StockOutResource extends Resource
                     ->sortable(),
                 TextColumn::make('destination')
                     ->searchable(),
+                TextColumn::make('user.email')
+                    ->label('Dibuat Oleh')
+                    ->searchable(),
                 TextColumn::make('tanggal_keluar')
                     ->date()
                     ->sortable(),

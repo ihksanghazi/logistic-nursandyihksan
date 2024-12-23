@@ -20,6 +20,11 @@ class StockOut extends Model
         return $this->belongsTo(Stock::class, 'kode_barang', 'kode_barang');
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     protected static function booted()
     {
         static::creating(function (StockOut $stock) {
