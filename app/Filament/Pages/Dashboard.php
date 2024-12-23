@@ -22,8 +22,10 @@ class Dashboard extends \Filament\Pages\Dashboard
                     ->label('Nama Barang')
                     ->options(Stock::all()->pluck('nama_barang', 'kode_barang'))
                     ->searchable(),
-                DatePicker::make('Tanggal Mulai'),
-                DatePicker::make('Tanggal Akhir'),
+                DatePicker::make('start_date')
+                    ->label("Tanggal Mulai"),
+                DatePicker::make('end_date')
+                    ->label("Tanggal Akhir"),
             ])->columns(3)
         ]);
     }
