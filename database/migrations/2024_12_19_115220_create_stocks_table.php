@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->ulid('id');
+            $table->foreignId('user_id')->constrained('users');
             $table->string("kode_barang")->index();
             $table->string('nama_barang');
             $table->integer('stok_tersedia')->default(0);

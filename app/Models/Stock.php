@@ -13,7 +13,7 @@ class Stock extends Model
 
     protected $guarded = [];
     // protected $fillable = ['nama_barang', 'stok_tersedia'];
-    // protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
     public function stockIns(): HasMany
     {

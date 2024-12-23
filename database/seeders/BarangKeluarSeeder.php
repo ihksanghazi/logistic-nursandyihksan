@@ -20,6 +20,7 @@ class BarangKeluarSeeder extends Seeder
         foreach (range(1, 5) as $index) {
             StockOut::create([
                 'kode_barang' => $stocks->random()->kode_barang,
+                'user_id' => $stocks->random()->user_id,
                 'quantity' => fake('id_ID')->numberBetween(1, 5),
                 'destination' => fake('id_ID')->city(),
                 'tanggal_keluar' => fake('id_ID')->dateTimeBetween('-1 year', 'now'),
