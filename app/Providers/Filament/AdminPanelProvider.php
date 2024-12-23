@@ -35,10 +35,12 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 // Pages\Dashboard::class,
             ])
+            ->spa()
+            ->topNavigation()
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
